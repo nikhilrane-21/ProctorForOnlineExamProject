@@ -48,44 +48,26 @@ def print_faces(frame, faces):
                 cv2.circle(frame, (x1, y1), 1, (0, 128, 255), -1)
 
 
-def register_user(frmodel, input_dir, request):
-    cam = cv2.VideoCapture(input_dir)
-    cv2.namedWindow('Face registration')
+def register_user(frmodel, request):
+
     input_embeddings = []
     input_im_list = []
 
-    while cam.isOpened():
-        user = request.user
-        user_id = user.id
-        student = Student.objects.get(user_id=user_id)
-        path = BASE_DIR.replace("\\", "/") + '/image/' + str(student.profile_pic)
-        print(path)
-        ret, frame = cam.read()
-        frame = cv2.imread(path)
+    user = request.user
+    user_id = user.id
+    student = Student.objects.get(user_id=user_id)
+    path = BASE_DIR.replace("\\", "/") + '/image/' + str(student.profile_pic)
+    print(path)
+    frame = cv2.imread(path)
 
-        if ret:
-            cv2.putText(frame, 'Press r to capture image', (30, 60), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 0, 0), 2)
-            cv2.imshow('Face registration', frame)
-
-            if cv2.waitKey(1) & 0xFF == ord('r'):
-                # capturing image
-
-                faces = detect_faces(frame, confidence=0.7)
-                if not faces or len(faces) != 1:
-                    print('No face detected or Multiple faces detected. Please try again.')
-                    # cv2.putText(frame, 'No face detected or Multiple faces detected. Please try again.', (30,85),cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255,0,0),2)
-                else:
-                    detect_landmarks(frame, faces, det_conf=0.7, track_conf=0.7)
-                    verify_faces(faces, frmodel)
-                    face_img = faces[0].img
-                    input_im_list.append(face_img)
-                    input_embeddings.append(faces[0].embedding)
-                    break
-        else:
-            # print("Camera not available, close any other apps using the webcam and try again")
-            continue
-    cam.release()
-    cv2.destroyAllWindows()
+    faces = detect_faces(frame, confidence=0.7)
+    if not faces or len(faces) != 1:
+        print('No face detected or Multiple faces detected.')
+    detect_landmarks(frame, faces, det_conf=0.7, track_conf=0.7)
+    verify_faces(faces, frmodel)
+    face_img = faces[0].img
+    input_im_list.append(face_img)
+    input_embeddings.append(faces[0].embedding)
 
     return input_embeddings, input_im_list
 

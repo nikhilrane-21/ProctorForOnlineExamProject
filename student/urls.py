@@ -12,6 +12,8 @@ urlpatterns = [
     path('take-exam/<int:pk>', views.take_exam_view, name='take-exam'),
     path('start-exam/<int:pk>', views.start_exam_view, name='start-exam'),
 
+    path('cam_on', views.cam_on, name='cam_on'),
+
     path('calculate-marks', views.calculate_marks_view, name='calculate-marks'),
     path('view-result', views.view_result_view, name='view-result'),
     path('check-marks/<int:pk>', views.check_marks_view, name='check-marks'),

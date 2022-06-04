@@ -9,6 +9,22 @@ from . import forms, models
 # for showing signup/login button for student
 from .proctor.main import run_proctor
 
+from django.http.response import StreamingHttpResponse
+from exam.camera import Cam_detect
+
+
+def gen(camera):
+    while True:
+        frame = camera.get_frame()
+        yield (b'--frame\r\n'
+               b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
+
+
+def cam_on(request):
+    return StreamingHttpResponse(gen(Cam_detect()),
+                                 content_type='multipart/x-mixed-replace; boundary=frame')
+
+
 
 def studentclick_view(request):
     if request.user.is_authenticated:

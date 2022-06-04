@@ -8,23 +8,6 @@ from student import models as SMODEL
 from student.proctor.main import run_proctor
 from . import forms, models
 
-from django.http.response import StreamingHttpResponse
-from exam.camera import Cam_detect
-
-
-def gen(camera):
-    while True:
-        frame = camera.get_frame()
-        yield (b'--frame\r\n'
-               b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
-
-
-def cam_on(request):
-    # run_proctor(request)
-    return StreamingHttpResponse(gen(Cam_detect()),
-                                 content_type='multipart/x-mixed-replace; boundary=frame')
-
-
 # def cam_end(self):
 #     self.vs.release()
 #     cv2.destroyAllWindows()

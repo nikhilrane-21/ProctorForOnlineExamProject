@@ -16,16 +16,10 @@ import cv2
 
 def run_proctor(request):
     font = cv2.FONT_HERSHEY_SIMPLEX
-    # pTime = [0]
-    fps_assumed = 5
-    segment_time = 5
-    input_dir = 0
-
     frmodel = loadFaceNet512Model()
-    input_embeddings, input_im_list = register_user(frmodel, input_dir, request)
-    cap = cv2.VideoCapture(input_dir)
+    input_embeddings, input_im_list = register_user(frmodel, request)
+    cap = cv2.VideoCapture(0)
     cv2.namedWindow('PROCTORING ON')
-
     frames = []
     while (True):
         ret, frame = cap.read()
@@ -51,10 +45,10 @@ def run_proctor(request):
     cap.release()
     cv2.destroyAllWindows()
 
-    plot_main(frames, segment_time, fps_assumed)
-    segments = segment_count(frames, segment_time, fps_assumed)
-    print_stats(segments)
-    plot_segments(segments, segment_time, [])
+    # plot_main(frames, segment_time, fps_assumed)
+    # segments = segment_count(frames, segment_time, fps_assumed)
+    # print_stats(segments)
+    # plot_segments(segments, segment_time, [])
 
 
 

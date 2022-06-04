@@ -7,18 +7,11 @@ class Cam_detect(object):
         self.vs = VideoStream(src=0).start()
 
     def __del__(self):
-        cv2.destroyAllWindows()
-
-    def detect_and_predict_mask(self, frame, faceNet):
-        blob = cv2.dnn.blobFromImage(frame, 1.0, (300, 300), (104.0, 177.0, 123.0))
-        faceNet.setInput(blob)
-        locs = []
-        preds = []
-        return (locs, preds)
+        self.vs.stop()
 
     def get_frame(self):
         frame = self.vs.read()
-        frame = imutils.resize(frame, width=450)
+        frame = imutils.resize(frame, width=650)
         frame = cv2.flip(frame, 1)
         ret, jpeg = cv2.imencode('.jpg', frame)
         return jpeg.tobytes()
