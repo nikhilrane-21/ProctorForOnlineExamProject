@@ -1,4 +1,3 @@
-import os
 
 from student.proctor.cheating_detector import detect_cheating_frame, segment_count, print_stats
 from student.proctor.face_detector import detect_faces
@@ -8,9 +7,8 @@ from student.proctor.models.Facenet512 import loadFaceNet512Model
 from student.proctor.plot_graphs import plot_main, plot_segments
 from student.proctor.utils import register_user, print_faces
 
+import os
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
-
-# Utils
 import cv2
 
 

@@ -13,15 +13,15 @@ from django.http.response import StreamingHttpResponse
 from exam.camera import Cam_detect
 
 
-def gen(camera):
+def gen(camera, request):
     while True:
-        frame = camera.get_frame()
+        frame = camera.get_frame(request)
         yield (b'--frame\r\n'
                b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
 
 
 def cam_on(request):
-    return StreamingHttpResponse(gen(Cam_detect()),
+    return StreamingHttpResponse(gen(Cam_detect(), request),
                                  content_type='multipart/x-mixed-replace; boundary=frame')
 
 
@@ -96,7 +96,7 @@ def start_exam_view(request, pk):
         pass
     response = render(request, 'student/start_exam.html', {'course': course, 'questions': questions})
     response.set_cookie('course_id', course.id)
-    run_proctor(request)
+    # run_proctor(request)
     return response
 
 

@@ -1,5 +1,4 @@
 import os
-import time
 import cv2
 
 from onlinexam.settings import BASE_DIR
@@ -11,14 +10,6 @@ from student.proctor.face_recognition import verify_faces
 curr_path = os.getcwd()
 
 font = cv2.FONT_HERSHEY_SIMPLEX
-
-
-def print_fps(frame, pTime):
-    cTime = time.time()
-    fps = 1 / (cTime - pTime[0])
-    pTime[0] = cTime
-    cv2.putText(frame, f"FPS : {int(fps)}", (15, 30), font, 0.5, (255, 0, 0), 2)
-
 
 def print_faces(frame, faces):
     if not faces:
@@ -57,7 +48,7 @@ def register_user(frmodel, request):
     user_id = user.id
     student = Student.objects.get(user_id=user_id)
     path = BASE_DIR.replace("\\", "/") + '/image/' + str(student.profile_pic)
-    print(path)
+    # print(path)
     frame = cv2.imread(path)
 
     faces = detect_faces(frame, confidence=0.7)
