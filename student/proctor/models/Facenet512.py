@@ -2,6 +2,9 @@ import os
 from pathlib import Path
 from functools import partial
 import tensorflow as tf
+
+from onlinexam.settings import BASE_DIR
+
 tf_version = int(tf.__version__.split(".")[0])
 
 if tf_version == 1:
@@ -36,7 +39,7 @@ else:
 
 def loadFaceNet512Model():
     model = InceptionResNetV2(dimension = 512)
-    model.load_weights("./models/facenet512_weights.h5")
+    model.load_weights(BASE_DIR+"/student/proctor/models/facenet512_weights.h5")
     return model
 
 def scaling(x, scale):

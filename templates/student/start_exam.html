@@ -62,7 +62,7 @@
                 </div>
 
             {% endfor %}
-            <input class="btn btn-success btn-lg" style="border-radius: 0%;" type="submit" value="Submit Answers" onclick="video_off()">
+            <input class="btn btn-success btn-lg" style="border-radius: 0%;" type="submit" value="Submit Answers">
         </form>
     </div>
 
@@ -82,9 +82,9 @@
 
         }
 
-        function video_off() {
-            document.getElementById("demo").src = "{% url 'cam_end' %}"
-        }
+        {#function video_off() {#}
+        {#    document.getElementById("demo").src = "{% url 'cam_end' %}"#}
+
 
         function setCookie(cname, cvalue, exdays) {
             var d = new Date();

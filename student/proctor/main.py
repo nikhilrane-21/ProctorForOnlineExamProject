@@ -1,41 +1,37 @@
 import os
 
+from student.proctor.cheating_detector import detect_cheating_frame, segment_count, print_stats
+from student.proctor.face_detector import detect_faces
+from student.proctor.face_landmarks import detect_landmarks
+from student.proctor.face_recognition import verify_faces
+from student.proctor.models.Facenet512 import loadFaceNet512Model
+from student.proctor.plot_graphs import plot_main, plot_segments
+from student.proctor.utils import register_user, print_faces
+
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
-# Face detection
-from face_detector import detect_faces
-# Face landmarks detection
-from face_landmarks import detect_landmarks
-# Face recognition
-from face_recognition import verify_faces
-from models.Facenet512 import loadFaceNet512Model
-# Cheat predicting modules
-from cheating_detector import *
-from plot_graphs import *
 # Utils
 import cv2
-from utils import register_user, print_fps, print_faces
 
-font = cv2.FONT_HERSHEY_SIMPLEX
-# pTime = [0]
-fps_assumed = 5
-segment_time = 5
-input_dir = 0
-# Register User
-frmodel = loadFaceNet512Model()
-input_embeddings, input_im_list = register_user(frmodel, input_dir)
 
-if __name__ == "__main__":
+def run_proctor(request):
+    font = cv2.FONT_HERSHEY_SIMPLEX
+    # pTime = [0]
+    fps_assumed = 5
+    segment_time = 5
+    input_dir = 0
+
+    frmodel = loadFaceNet512Model()
+    input_embeddings, input_im_list = register_user(frmodel, input_dir, request)
     cap = cv2.VideoCapture(input_dir)
     cv2.namedWindow('PROCTORING ON')
+
     frames = []
     while (True):
         ret, frame = cap.read()
         frame = cv2.flip(frame, 1)
         if not ret:
             break
-
-        # print_fps(frame, pTime)
 
         faces = detect_faces(frame, confidence=0.7)
         detect_landmarks(frame, faces, det_conf=0.7, track_conf=0.7)
@@ -59,3 +55,6 @@ if __name__ == "__main__":
     segments = segment_count(frames, segment_time, fps_assumed)
     print_stats(segments)
     plot_segments(segments, segment_time, [])
+
+
+

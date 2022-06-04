@@ -5,32 +5,40 @@ from django.shortcuts import render, redirect
 import cv2
 from student import forms as SFORM
 from student import models as SMODEL
+from student.proctor.main import run_proctor
 from . import forms, models
 
 from django.http.response import StreamingHttpResponse
 from exam.camera import Cam_detect
 
+
 def gen(camera):
     while True:
         frame = camera.get_frame()
         yield (b'--frame\r\n'
-                b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
+               b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
+
 
 def cam_on(request):
-        return StreamingHttpResponse(gen(Cam_detect()),
-                    content_type='multipart/x-mixed-replace; boundary=frame')
+    # run_proctor(request)
+    return StreamingHttpResponse(gen(Cam_detect()),
+                                 content_type='multipart/x-mixed-replace; boundary=frame')
 
-def cam_end(self):
-    self.vs.release()
-    cv2.destroyAllWindows()
+
+# def cam_end(self):
+#     self.vs.release()
+#     cv2.destroyAllWindows()
+
 
 def home_view(request):
     if request.user.is_authenticated:
         return HttpResponseRedirect('afterlogin')
     return redirect('student/studentclick')
 
+
 def is_student(user):
     return user.groups.filter(name='STUDENT').exists()
+
 
 def afterlogin_view(request):
     if is_student(request.user):
@@ -55,6 +63,7 @@ def admin_dashboard_view(request):
     }
     return render(request, 'exam/admin_dashboard.html', context=dict)
 
+
 @login_required(login_url='adminlogin')
 def admin_student_view(request):
     dict = {
@@ -66,6 +75,7 @@ def admin_student_view(request):
 @login_required(login_url='adminlogin')
 def admin_view_student_view(request):
     students = SMODEL.Student.objects.all()
+    print(students[0].profile_pic)
     return render(request, 'exam/admin_view_student.html', {'students': students})
 
 

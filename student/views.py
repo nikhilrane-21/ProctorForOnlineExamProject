@@ -7,6 +7,9 @@ from exam import models as QMODEL
 from . import forms, models
 
 # for showing signup/login button for student
+from .proctor.main import run_proctor
+
+
 def studentclick_view(request):
     if request.user.is_authenticated:
         return HttpResponseRedirect('afterlogin')
@@ -77,6 +80,7 @@ def start_exam_view(request, pk):
         pass
     response = render(request, 'student/start_exam.html', {'course': course, 'questions': questions})
     response.set_cookie('course_id', course.id)
+    run_proctor(request)
     return response
 
 

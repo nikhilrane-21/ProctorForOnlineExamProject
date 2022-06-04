@@ -2,9 +2,11 @@ import os
 import time
 import cv2
 
-from face_detector import detect_faces
-from face_landmarks import detect_landmarks
-from face_recognition import verify_faces
+from onlinexam.settings import BASE_DIR
+from student.models import Student
+from student.proctor.face_detector import detect_faces
+from student.proctor.face_landmarks import detect_landmarks
+from student.proctor.face_recognition import verify_faces
 
 curr_path = os.getcwd()
 
@@ -46,20 +48,20 @@ def print_faces(frame, faces):
                 cv2.circle(frame, (x1, y1), 1, (0, 128, 255), -1)
 
 
-def register_user(frmodel, input_dir):
+def register_user(frmodel, input_dir, request):
     cam = cv2.VideoCapture(input_dir)
     cv2.namedWindow('Face registration')
     input_embeddings = []
     input_im_list = []
 
     while cam.isOpened():
-
-        path = 'static/profile_pic/Student'
+        user = request.user
+        user_id = user.id
+        student = Student.objects.get(user_id=user_id)
+        path = BASE_DIR.replace("\\", "/") + '/image/' + str(student.profile_pic)
+        print(path)
         ret, frame = cam.read()
-        myList = os.listdir(path)
-        for cl in myList:
-            frame = cv2.imread(f'{path}/{cl}')
-            break;
+        frame = cv2.imread(path)
 
         if ret:
             cv2.putText(frame, 'Press r to capture image', (30, 60), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 0, 0), 2)
@@ -67,6 +69,7 @@ def register_user(frmodel, input_dir):
 
             if cv2.waitKey(1) & 0xFF == ord('r'):
                 # capturing image
+
                 faces = detect_faces(frame, confidence=0.7)
                 if not faces or len(faces) != 1:
                     print('No face detected or Multiple faces detected. Please try again.')

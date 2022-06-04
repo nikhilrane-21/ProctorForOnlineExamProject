@@ -1,8 +1,10 @@
+from django.conf.urls.static import static
 from django.contrib import admin
 from django.contrib.auth.views import LogoutView, LoginView
 from django.urls import path, include
 
 from exam import views
+from onlinexam import settings
 
 urlpatterns = [
 
@@ -37,5 +39,8 @@ urlpatterns = [
     path('delete-question/<int:pk>', views.delete_question_view, name='delete-question'),
 
     path('cam_on', views.cam_on, name='cam_on'),
-    path('cam_end', views.cam_end, name='cam_end'),
+    # path('cam_end', views.cam_end, name='cam_end'),
 ]
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + \
+               static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
