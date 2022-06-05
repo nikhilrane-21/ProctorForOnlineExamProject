@@ -16,40 +16,45 @@ from student.proctor.plot_graphs import plot_main, plot_segments
 from student.proctor.utils import register_user, print_faces
 
 class Cam_detect(object):
-    def __init__(self):
+    def __init__(self, request):
         self.vs = VideoStream(src=0).start()
+        self.font = cv2.FONT_HERSHEY_SIMPLEX
+        self.frmodel = loadFaceNet512Model()
+        self.input_embeddings, self.input_im_list = register_user(self.frmodel, request)
+        self.frames = []
 
-    def __del__(self):
-        self.vs.stop()
-        # cap.release()
-        cv2.destroyAllWindows()
+    # def __del__(self):
+        # self.vs = VideoStream(src=0).stop()
+        # self.cap = self.vs.read()
+        # # self.vs.stop()
+        # self.cap.stop()
+        # # self.vs.release()
+        # # self.cap.release()
+        # cv2.destroyAllWindows()
 
     def get_frame(self, request):
 
-        font = cv2.FONT_HERSHEY_SIMPLEX
-        frmodel = loadFaceNet512Model()
-        input_embeddings, input_im_list = register_user(frmodel, request)
-        frames = []
+
 
         while (True):
-            cap = self.vs.read()
-            cap = imutils.resize(cap, width=650)
-            cap = cv2.flip(cap, 1)
-            faces = detect_faces(cap, confidence=0.7)
-            detect_landmarks(cap, faces, det_conf=0.7, track_conf=0.7)
-            verify_faces(faces, frmodel, input_embeddings)
+            self.cap = self.vs.read()
+            self.cap = imutils.resize(self.cap, width=650)
+            self.cap = cv2.flip(self.cap, 1)
+            faces = detect_faces(self.cap, confidence=0.7)
+            detect_landmarks(self.cap, faces, det_conf=0.7, track_conf=0.7)
+            verify_faces(faces, self.frmodel, self.input_embeddings)
 
-            print_faces(cap, faces)
+            print_faces(self.cap, faces)
 
-            cheat_temp = detect_cheating_frame(faces, frames)
-            frames.append(cheat_temp)
+            cheat_temp = detect_cheating_frame(faces, self.frames)
+            self.frames.append(cheat_temp)
             if cheat_temp.cheat > 0:
-                cv2.putText(cap, "Cheating suspected", (15, 130), font, 0.5, (0, 0, 255), 2)
+                cv2.putText(self.cap, "Cheating suspected", (15, 130), self.font, 0.5, (0, 0, 255), 2)
+            ret, jpeg = cv2.imencode('.jpg', self.cap)
+            return jpeg.tobytes()
+            # if cv2.waitKey(1) & 0xFF == 27:
+            #     break
 
-            if cv2.waitKey(1) & 0xFF == 27:
-                break
-        ret, jpeg = cv2.imencode('.jpg', cap)
-        return jpeg.tobytes()
-        cap.release()
-        cv2.destroyAllWindows()
+        # self.vs.release()
+        # cv2.destroyAllWindows()
 

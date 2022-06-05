@@ -21,7 +21,7 @@ def gen(camera, request):
 
 
 def cam_on(request):
-    return StreamingHttpResponse(gen(Cam_detect(), request),
+    return StreamingHttpResponse(gen(Cam_detect(request), request),
                                  content_type='multipart/x-mixed-replace; boundary=frame')
 
 
