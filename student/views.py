@@ -6,8 +6,6 @@ from django.shortcuts import render
 from exam import models as QMODEL
 from . import forms, models
 
-# for showing signup/login button for student
-from .proctor.main import run_proctor
 
 from django.http.response import StreamingHttpResponse
 from exam.camera import Cam_detect
