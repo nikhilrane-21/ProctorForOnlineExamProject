@@ -37,6 +37,8 @@
                     <th>Total Marks</th>
                     <th>Number of Attempt</th>
                     <th>Exam Date</th>
+                    <th>Cheat Report</th>
+
                 </tr>
                 </thead>
                 {% for t in results %}
@@ -46,7 +48,7 @@
                         <td> {{ t.marks }}</td>
                         <td>Attempt {{ forloop.counter }}</td>
                         <td> {{ t.date }}</td>
-
+                        <td><center><img src="{{ t.cheater.url }}" alt="Cheat Report" height="200px" width="200px"/></center>
 
                     </tr>
                 {% endfor %}

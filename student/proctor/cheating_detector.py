@@ -107,12 +107,12 @@ def segment_count(frames, segment_time=10, fps_assumed=5):
     return segments
 
 
-def print_stats(segments):
-    cheat_count = 0
-    for segment in segments:
-        if (segment.cheat):
-            cheat_count += 1
-    print("\n*****************************\n")
-    print("segment_count = ", len(segments))
-    print("cheatings observed  = ", cheat_count)
-    print("\n*****************************\n")
+# def print_stats(segments):
+#     cheat_count = 0
+#     for segment in segments:
+#         if (segment.cheat):
+#             cheat_count += 1
+#     print("\n*****************************\n")
+#     print("segment_count = ", len(segments))
+#     print("cheatings observed  = ", cheat_count)
+#     print("\n*****************************\n")

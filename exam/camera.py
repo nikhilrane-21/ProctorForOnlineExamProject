@@ -5,12 +5,12 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 import cv2
 #######################################
 
-from student.proctor.cheating_detector import detect_cheating_frame, segment_count, print_stats
+from student.proctor.cheating_detector import detect_cheating_frame, segment_count
 from student.proctor.face_detector import detect_faces
 from student.proctor.face_landmarks import detect_landmarks
 from student.proctor.face_recognition import verify_faces
 from student.proctor.models.Facenet512 import loadFaceNet512Model
-from student.proctor.plot_graphs import plot_main, plot_segments
+from student.proctor.plot_graphs import plot_main
 from student.proctor.utils import register_user, print_faces
 
 class Cam_detect(object):
@@ -36,7 +36,7 @@ class Cam_detect(object):
         plot_main(self.frames, self.segment_time, self.fps_assumed)
         segments = segment_count(self.frames, self.segment_time, self.fps_assumed)
         print_stats(segments)
-        plot_segments(segments, self.segment_time, [])
+        # plot_segments(segments, self.segment_time, [])
 
 
     def get_frame(self, request):

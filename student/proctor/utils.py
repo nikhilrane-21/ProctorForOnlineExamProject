@@ -3,6 +3,7 @@ import cv2
 
 from onlinexam.settings import BASE_DIR
 from student.models import Student
+# from student.models import CheatReport
 from student.proctor.face_detector import detect_faces
 from student.proctor.face_landmarks import detect_landmarks
 from student.proctor.face_recognition import verify_faces

@@ -5,7 +5,6 @@ from django.shortcuts import render, redirect
 import cv2
 from student import forms as SFORM
 from student import models as SMODEL
-from student.proctor.main import run_proctor
 from . import forms, models
 
 # def cam_end(self):
@@ -40,7 +39,6 @@ def adminclick_view(request):
 def admin_dashboard_view(request):
     dict = {
         'total_student': SMODEL.Student.objects.all().count(),
-        # 'total_teacher':TMODEL.Teacher.objects.all().filter(status=True).count(),
         'total_course': models.Course.objects.all().count(),
         'total_question': models.Question.objects.all().count(),
     }
@@ -164,6 +162,7 @@ def delete_question_view(request, pk):
 @login_required(login_url='adminlogin')
 def admin_view_student_marks_view(request):
     students = SMODEL.Student.objects.all()
+    # cheater = SMODEL.Cheat_report.objects.all()
     return render(request, 'exam/admin_view_student_marks.html', {'students': students})
 
 
@@ -180,6 +179,6 @@ def admin_check_marks_view(request, pk):
     course = models.Course.objects.get(id=pk)
     student_id = request.COOKIES.get('student_id')
     student = SMODEL.Student.objects.get(id=student_id)
-
+    print(student[0].cheater)
     results = models.Result.objects.all().filter(exam=course).filter(student=student)
     return render(request, 'exam/admin_check_marks.html', {'results': results})

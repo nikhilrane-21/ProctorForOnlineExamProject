@@ -1,6 +1,7 @@
 from django.db import models
 
 from student.models import Student
+# from student.models import CheatReport
 
 
 class Course(models.Model):
@@ -29,3 +30,4 @@ class Result(models.Model):
     exam = models.ForeignKey(Course, on_delete=models.CASCADE)
     marks = models.PositiveIntegerField()
     date = models.DateTimeField(auto_now=True)
+    cheater = models.ImageField(upload_to='C:/Users/TufA15/Desktop/Exam module/results/', null=True, blank=True)

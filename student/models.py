@@ -1,6 +1,8 @@
 from django.contrib.auth.models import User
 from django.db import models
 
+# class CheatReport(models.Model):
+#     cheat_report = models.ImageField(upload_to='results/', null=True, blank=True)
 
 class Student(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)

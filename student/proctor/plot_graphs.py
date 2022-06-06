@@ -1,7 +1,7 @@
 import time
+from django.shortcuts import render, redirect
 
 import matplotlib.pyplot as plt
-
 
 # from testing import *
 
@@ -56,7 +56,7 @@ def plot_main(frames, segment_time, fps_assumed):
     plt.xlabel("frames")
     plt.subplots_adjust(hspace=1.0)
     plt.savefig("results/cheat_frames_" + time.strftime("%Y%m%d-%H%M%S") + ".png", dpi=300)
-    plt.show()
+    # plt.show()
 
     print("Segment wise results")
     for i in range(len(cheat_list)):
@@ -72,25 +72,27 @@ def cheat_count(segments):
     return cheat_count
 
 
-def plot_segments(segments, segment_time, original=[]):
-    x = []
-    detected = []
-    n = cheat_count(segments)
-    for segment in segments:
-        x.append(segment.count)
-        detected.append(segment.cheat)
 
-    plt.figure(figsize=(12, 4))
-    plt.step(detected, 'r')
-    plt.step(original, 'b')
-    plt.yticks([0, 1])
-    # plt.xticks(x)
-    plt.xlabel('Time Segments')
-    plt.ylabel('Cheating Suspected')
-    stats = "Total Time : " + str(len(segments) * segment_time) + " seconds\n" + "Cheating Suspected for : " + str(
-        n * segment_time) + " seconds"
-    plt.figtext(0.5, 0.9, stats, ha="center", fontsize=12, bbox={"facecolor": "orange", "alpha": 0.5, "pad": 3})
-    plt.savefig("results/cheating_detection_" + time.strftime("%Y%m%d-%H%M%S") + ".png", dpi=300)
-    plt.show()
-    print(x)
-    print(detected)
+
+# def plot_segments(segments, segment_time, original=[]):
+#     x = []
+#     detected = []
+#     n = cheat_count(segments)
+#     for segment in segments:
+#         x.append(segment.count)
+#         detected.append(segment.cheat)
+#
+#     plt.figure(figsize=(12, 4))
+#     plt.step(detected, 'r')
+#     plt.step(original, 'b')
+#     plt.yticks([0, 1])
+#     # plt.xticks(x)
+#     plt.xlabel('Time Segments')
+#     plt.ylabel('Cheating Suspected')
+#     stats = "Total Time : " + str(len(segments) * segment_time) + " seconds\n" + "Cheating Suspected for : " + str(
+#         n * segment_time) + " seconds"
+#     plt.figtext(0.5, 0.9, stats, ha="center", fontsize=12, bbox={"facecolor": "orange", "alpha": 0.5, "pad": 3})
+#     plt.savefig("results/cheating_detection_" + time.strftime("%Y%m%d-%H%M%S") + ".png", dpi=300)
+#     plt.show()
+#     print(x)
+#     print(detected)
