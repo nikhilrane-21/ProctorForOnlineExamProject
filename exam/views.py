@@ -2,15 +2,9 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
-import cv2
 from student import forms as SFORM
 from student import models as SMODEL
 from . import forms, models
-
-# def cam_end(self):
-#     self.vs.release()
-#     cv2.destroyAllWindows()
-
 
 def home_view(request):
     if request.user.is_authenticated:
@@ -179,6 +173,5 @@ def admin_check_marks_view(request, pk):
     course = models.Course.objects.get(id=pk)
     student_id = request.COOKIES.get('student_id')
     student = SMODEL.Student.objects.get(id=student_id)
-    print(student[0].cheater)
     results = models.Result.objects.all().filter(exam=course).filter(student=student)
     return render(request, 'exam/admin_check_marks.html', {'results': results})

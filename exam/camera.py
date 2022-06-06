@@ -34,8 +34,8 @@ class Cam_detect(object):
         self.fps_assumed = 5
         self.segment_time = 5
         plot_main(self.frames, self.segment_time, self.fps_assumed)
-        segments = segment_count(self.frames, self.segment_time, self.fps_assumed)
-        print_stats(segments)
+        # segments = segment_count(self.frames, self.segment_time, self.fps_assumed)
+        # print_stats(segments)
         # plot_segments(segments, self.segment_time, [])
 
 

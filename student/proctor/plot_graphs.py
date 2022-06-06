@@ -1,30 +1,8 @@
 import time
 from django.shortcuts import render, redirect
+from .. import shared_data as sd
 
 import matplotlib.pyplot as plt
-
-# from testing import *
-
-def print_list(items):
-    for item in items:
-        print(item, end=',')
-    print()
-
-
-def segment_list(items, segment_time, fps_assumed):
-    no_of_frames = segment_time * fps_assumed
-    count = 0
-    listcount = []
-    curr = 0
-    for item in items:
-        curr += 1
-        if item == 1:
-            count += 1
-
-        if curr % no_of_frames == 0:
-            listcount.append((count / no_of_frames) * 100)
-            count = 0
-    print_list(listcount)
 
 
 def plot_main(frames, segment_time, fps_assumed):
@@ -55,23 +33,43 @@ def plot_main(frames, segment_time, fps_assumed):
             plt.ylabel("cheat status")
     plt.xlabel("frames")
     plt.subplots_adjust(hspace=1.0)
-    plt.savefig("results/cheat_frames_" + time.strftime("%Y%m%d-%H%M%S") + ".png", dpi=300)
+    path_cr = "image/results/cheat_frames_" + str(sd.user) + str(sd.exam)+"_"+str(sd.atmpt)+ ".png"
+    plt.savefig(path_cr, dpi=300)
     # plt.show()
+    #
+    # print("Segment wise results")
+    # for i in range(len(cheat_list)):
+    #     # print(titles_list[i])
+    #     segment_list(cheat_list[i], segment_time, fps_assumed)
 
-    print("Segment wise results")
-    for i in range(len(cheat_list)):
-        print(titles_list[i])
-        segment_list(cheat_list[i], segment_time, fps_assumed)
-
-
-def cheat_count(segments):
-    cheat_count = 0
-    for segment in segments:
-        if (segment.cheat):
-            cheat_count += 1
-    return cheat_count
+# def print_list(items):
+#     for item in items:
+#         print(item, end=',')
+#     print()
 
 
+# def segment_list(items, segment_time, fps_assumed):
+#     no_of_frames = segment_time * fps_assumed
+#     count = 0
+#     # listcount = []
+#     curr = 0
+#     for item in items:
+#         curr += 1
+#         if item == 1:
+#             count += 1
+#
+#         if curr % no_of_frames == 0:
+#             listcount.append((count / no_of_frames) * 100)
+#             count = 0
+#     # print_list(listcount)
+
+
+# def cheat_count(segments):
+#     cheat_count = 0
+#     for segment in segments:
+#         if (segment.cheat):
+#             cheat_count += 1
+#     return cheat_count
 
 
 # def plot_segments(segments, segment_time, original=[]):

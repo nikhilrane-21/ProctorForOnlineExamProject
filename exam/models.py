@@ -30,4 +30,4 @@ class Result(models.Model):
     exam = models.ForeignKey(Course, on_delete=models.CASCADE)
     marks = models.PositiveIntegerField()
     date = models.DateTimeField(auto_now=True)
-    cheater = models.ImageField(upload_to='C:/Users/TufA15/Desktop/Exam module/results/', null=True, blank=True)
+    cheater = models.CharField(max_length=200, default="")

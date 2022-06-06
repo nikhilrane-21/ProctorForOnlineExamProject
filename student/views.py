@@ -1,3 +1,5 @@
+import random
+
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.models import Group
 from django.http import HttpResponseRedirect
@@ -5,6 +7,7 @@ from django.shortcuts import render
 
 from exam import models as QMODEL
 from . import forms, models
+from . import shared_data as sd
 
 
 from django.http.response import StreamingHttpResponse
@@ -97,7 +100,6 @@ def start_exam_view(request, pk):
     # run_proctor(request)
     return response
 
-
 @login_required(login_url='studentlogin')
 @user_passes_test(is_student)
 def calculate_marks_view(request):
@@ -117,8 +119,13 @@ def calculate_marks_view(request):
         result = QMODEL.Result()
         result.marks = total_marks
         result.exam = course
+        sd.atmpt = random.randint(1000000, 99999999)
         result.student = student
+        cheat_report= "results/cheat_frames_"+str(result.student_id)+str(result.exam_id)+"_"+str(sd.atmpt)+".png"
+        result.cheater = cheat_report
         result.save()
+        sd.user = result.student_id
+        sd.exam = result.exam_id
 
         return HttpResponseRedirect('view-result')
 

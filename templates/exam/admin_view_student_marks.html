@@ -42,7 +42,8 @@
                     <tr>
 
                         <td> {{ t.get_name }}</td>
-                        <td><center><img src="{{ t.profile_pic.url }}" alt="Profile Pics" height="200px" width="200px"/></center>
+                        <td><center><a href="{{ t.profile_pic.url }}" target="_blank"><img src="{{ t.profile_pic.url }}" alt="Profile Pic" height="100px" width="100px"/></a></center>
+                        </td>
                         <td><a class="btn btn-primary btn-sm" style="border-radius: 0%;"
                                href="{% url 'admin-view-marks' t.id %}"><span
                                 class="glyphicon glyphicon-eye-open"></span> View Marks</a></td>

@@ -48,7 +48,7 @@
                         <td> {{ t.marks }}</td>
                         <td>Attempt {{ forloop.counter }}</td>
                         <td> {{ t.date }}</td>
-                        <td><center><img src="{{ t.cheater.url }}" alt="Cheat Report" height="200px" width="200px"/></center>
+                        <td><center><a href="../image/{{ t.cheater }}" target="_blank"><img src="../image/{{ t.cheater }}" alt="Cheat Report" height="100px" width="100px"/></a> </center>
 
                     </tr>
                 {% endfor %}
