@@ -156,7 +156,6 @@ def delete_question_view(request, pk):
 @login_required(login_url='adminlogin')
 def admin_view_student_marks_view(request):
     students = SMODEL.Student.objects.all()
-    # cheater = SMODEL.Cheat_report.objects.all()
     return render(request, 'exam/admin_view_student_marks.html', {'students': students})
 
 
