@@ -27,10 +27,11 @@ def print_faces(frame, faces):
 
         # Face recognition
         if face.name:
-            cv2.putText(frame, face.name, (x, y - 5), cv2.FONT_HERSHEY_PLAIN, 1, (204, 0, 0), 2)
+            cv2.putText(frame, face.name, (x, y - 5), cv2.FONT_HERSHEY_PLAIN, 1, (0, 165, 255), 2)
             cv2.putText(frame, "d:" + str(round(face.distance, 4)), (x + w + 5, y + 46), cv2.FONT_HERSHEY_PLAIN, 1,
                         (153, 0, 0), 1)
             # cv2.imshow("Best Match-{}".format(face.id), input_im_list[face.best_index])
+
 
         # Face landmarks
         if face.landmarks:
