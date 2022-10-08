@@ -15,7 +15,7 @@ from student.proctor.utils import register_user, print_faces
 
 class Cam_detect(object):
     def __init__(self, request):
-        self.vs = VideoStream(src=1).start()
+        self.vs = VideoStream(src=0).start()
         self.font = cv2.FONT_HERSHEY_SIMPLEX
         self.frmodel = loadFaceNet512Model()
         self.input_embeddings, self.input_im_list = register_user(self.frmodel, request)
